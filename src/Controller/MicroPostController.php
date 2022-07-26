@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use Symfony\Component\Routing\Annotation\Route;
-
+use App\Entity\MicroPost;
 use App\Repository\MicroPostRepository;
 use Symfony\Component\HttpFoundation\Reuest;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,6 +12,7 @@ use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormFactoryInterface;
 
 /**
  * @Route("/micro-post")
@@ -27,7 +28,7 @@ class MicroPostController extends AbstractController{
      * @var microPostRepository
      */
     private $microPostRepository;
-
+    private $formFactory;
     /**
      * @param Twig_Environment $twig
      * @param MicroPostRepository $microPostRepository
@@ -35,11 +36,13 @@ class MicroPostController extends AbstractController{
 
     public function __construct(
         \Twig\Environment $twig,
-       MicroPostRepository $microPostRepository
+       MicroPostRepository $microPostRepository,
+       FormFactoryInterface $formFactory
     )
     {
         $this->twig = $twig;
         $this->microPostRepository = $microPostRepository;
+        $this->formFactory=$formFactory;
     }
 
 
@@ -52,5 +55,18 @@ class MicroPostController extends AbstractController{
         ]);
 
         return new Response($html);
+    }
+
+    /**
+     * @Route("/add",name="micro_post_add")
+     */
+    public function add(){
+
+        $microPost= new MicroPost();
+        $microPost->setTime(new \DateTime());
+        $microPost->setText();
+        return new Response(
+            $this->twig->render('micro-post/add.html.twig')
+        );
     }
 }
