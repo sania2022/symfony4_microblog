@@ -7,12 +7,12 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 /**
  * @Route("/blog")
  */
 
-class BlogController 
+class BlogController extends AbstractController
 {
     /**
      * @var Twig\Environment
